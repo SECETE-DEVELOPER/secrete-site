@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root and body baseline */
+:root {
+  --cosmic-start: #020214;
+  --cosmic-end: #090f24;
+  --accent-cyan: #22d3ee;
+  --accent-pink: #ec4899;
+  --text-primary: #e0f2fe;
+  --text-secondary: #7ee8f5;
+  --border-subtle: rgba(34, 211, 238, 0.15);
+}
+
+html, body {
+  height: 100%;
+  background: linear-gradient(to bottom, var(--cosmic-start), var(--cosmic-end));
+}
+
+body {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Font families */
+.font-serif {
+  font-family: 'Playfair Display', ui-serif, Georgia, serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}
+
+/* Cosmic text effects */
+.font-urdu {
+  font-family: 'Noto Sans Urdu', sans-serif;
+}
+
+/* Cosmic text effects */
+.verse {
+  font-family: 'Playfair Display', serif;
+  color: var(--accent-pink);
+  text-shadow: 0 6px 30px rgba(9, 10, 25, 0.6);
+}
+
+.glow-cyan {
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+}
+
+.glow-pink {
+  text-shadow: 0 0 18px rgba(236, 72, 153, 0.3);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.08);
+}
+
+.shadow-glow-pink {
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.08);
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Terminal floating toggle styles */
+.terminal-toggle-container {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 60;
+  pointer-events: none; /* container doesn't block, button will */
+}
+
+.terminal-toggle {
+  pointer-events: auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(236,72,153,0.12));
+  border: 1px solid rgba(34,211,238,0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(2,2,18,0.6);
+  transition: transform 220ms cubic-bezier(.2,.9,.26,1), box-shadow 220ms;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+}
+
+.terminal-toggle:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(34,211,238,0.12);
+}
+
+/* Small decorative burst to simulate a flowing star */
+.terminal-toggle .terminal-burst {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, rgba(34,211,238,0.95), rgba(34,211,238,0.25));
+  filter: blur(6px);
+  opacity: 0.85;
+  transform-origin: center;
+  animation: floatAround 6s ease-in-out infinite, twinkle 1.8s linear infinite;
+}
+
+@keyframes floatAround {
+  0% { transform: translate(0px, 0px) scale(1); }
+  25% { transform: translate(-6px, -8px) scale(1.02); }
+  50% { transform: translate(0px, -12px) scale(0.98); }
+  75% { transform: translate(6px, -6px) scale(1.01); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.18); }
+}
+
+/* Make the toggle visually integrate with the background particles: subtle sparkle */
+.terminal-toggle::after {
+  content: '';
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 30% 30%, rgba(34,211,238,0.03), transparent 30%), radial-gradient(circle at 70% 70%, rgba(236,72,153,0.03), transparent 30%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
