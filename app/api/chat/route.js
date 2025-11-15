@@ -1,7 +1,12 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import os from 'os';
 
-const CHAT_DIR = path.join(process.cwd(), 'public', 'chat');
+// Use temp directory in production (Vercel), public in development
+const CHAT_DIR = process.env.NODE_ENV === 'production' 
+  ? path.join(os.tmpdir(), 'chat')
+  : path.join(process.cwd(), 'public', 'chat');
+
 const CHAT_FILE = path.join(CHAT_DIR, 'messages.json');
 
 async function ensureChatFile() {

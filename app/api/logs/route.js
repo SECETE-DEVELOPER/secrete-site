@@ -1,7 +1,12 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import os from 'os';
 
-const LOGS_DIR = path.join(process.cwd(), 'public', 'logs');
+// Use temp directory in production (Vercel), public in development
+const LOGS_DIR = process.env.NODE_ENV === 'production'
+  ? path.join(os.tmpdir(), 'logs')
+  : path.join(process.cwd(), 'public', 'logs');
+
 const LOGS_FILE = path.join(LOGS_DIR, 'login_attempts.json');
 
 async function ensureLogsFile() {
