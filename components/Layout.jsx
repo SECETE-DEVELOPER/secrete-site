@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import AudioPlayer from './AudioPlayer';
-import YouTubePlayer from './YouTubePlayer';
 
 export default function Layout({ children }) {
   const [time, setTime] = useState('');
@@ -18,11 +17,8 @@ export default function Layout({ children }) {
 
   return (
     <div className="relative w-screen min-h-screen bg-gradient-to-b from-[#020214] to-[#090f24] text-cyan-200 font-mono">
-      {/* YouTube Player Container - Hidden but required for useMusic hook */}
-      <YouTubePlayer />
-      
-      {/* HTML5 Audio Player - Disabled, using YouTube player instead */}
-      {/* <AudioPlayer /> */}
+      {/* HTML5 Audio Player - Local audio file */}
+      <AudioPlayer />
 
       {/* HUD: Top-right corner */}
       <div className="fixed top-4 right-4 z-50 text-xs md:text-sm font-mono p-3 bg-black/40 border border-cyan-300/30 rounded backdrop-blur-sm space-y-1">

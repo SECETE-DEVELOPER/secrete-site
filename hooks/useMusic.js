@@ -58,7 +58,7 @@ export function useMusic() {
               width: 0,
               height: 0,
               playerVars: {
-                autoplay: 1,
+                autoplay: 0,
                 controls: 0,
                 loop: 1,
                 playlist: 'dQw4w9WgXcQ',
@@ -70,17 +70,8 @@ export function useMusic() {
               },
               events: {
                 onReady: () => {
-                  console.log('✅ YouTube player ready');
+                  console.log('✅ YouTube player ready (not autoplaying - using local audio)');
                   setIsReady(true);
-                  // Try to play immediately on ready
-                  setTimeout(() => {
-                    try {
-                      console.log('▶️ Auto-playing music...');
-                      playerRef.current?.playVideo?.();
-                    } catch (e) {
-                      console.log('⚠️ Autoplay blocked, waiting for user interaction', e);
-                    }
-                  }, 500);
                 },
                 onStateChange: (event) => {
                   // 1 = PLAYING, 0 = ENDED, 2 = PAUSED, 3 = BUFFERING, 5 = CUED
