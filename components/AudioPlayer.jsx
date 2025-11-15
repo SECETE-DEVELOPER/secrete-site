@@ -7,6 +7,13 @@ export default function AudioPlayer() {
 
   useEffect(() => {
     if (!audioRef.current) return;
+    
+    // Prevent double playback in React Strict Mode
+    if (window.__audioPlayerInitialized) {
+      console.log('🎵 Audio already initialized, skipping...');
+      return;
+    }
+    window.__audioPlayerInitialized = true;
 
     const audio = audioRef.current;
     audio.volume = 0.3;
