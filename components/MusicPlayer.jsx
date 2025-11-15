@@ -23,7 +23,7 @@ export default function MusicPlayer() {
           <iframe
             width="100%"
             height="200"
-            src="https://www.youtube.com/embed/2er9ukbfa0M?autoplay=1&controls=1&modestbranding=1"
+            src="https://www.youtube.com/embed/2er9ukbfa0M?autoplay=0&controls=1&modestbranding=1"
             title="SHOR - Mooroo"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
