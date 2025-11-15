@@ -15,6 +15,13 @@ export function useMusic() {
   // Initialize YouTube IFrame API
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    
+    // Prevent double initialization in strict mode
+    if (window.__youtubePlayerInitialized) {
+      console.log('🎵 useMusic already initialized, skipping...');
+      setIsReady(true);
+      return;
+    }
 
     console.log('🎵 useMusic initializing...');
 
@@ -43,6 +50,7 @@ export function useMusic() {
 
         // Only create player once
         if (!playerRef.current || !playerRef.current.getVideoData) {
+          window.__youtubePlayerInitialized = true;
           try {
             console.log('🎬 Creating YouTube player...');
             playerRef.current = new window.YT.Player('youtube-audio-player', {

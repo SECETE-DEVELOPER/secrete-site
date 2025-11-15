@@ -28,18 +28,8 @@ export default function AudioPlayer() {
     audio.addEventListener('loadstart', handleLoadStart);
     audio.addEventListener('error', handleError);
 
-    // Try to play audio
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          console.log('🎵 Background music started playing');
-          setIsPlaying(true);
-        })
-        .catch((error) => {
-          console.log('⚠️ Autoplay blocked by browser. Click anywhere to enable audio.', error?.message);
-        });
-    }
+    // Don't autoplay - useMusic hook handles music autoplay to avoid duplicates
+    // audio.play() is intentionally commented out here
 
     // Handle play/pause state changes
     const handlePlay = () => {
