@@ -34,8 +34,12 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    console.log('📨 Chat POST received');
     const collection = await getMessagesCollection();
+    console.log('✅ MongoDB collection accessed');
+    
     const messageData = await request.json();
+    console.log('📋 Message data:', messageData);
 
     // Validate required fields
     if (!messageData.sender || !messageData.message || !messageData.timestamp) {
@@ -64,6 +68,7 @@ export async function POST(request) {
 
     // Insert message into MongoDB
     const result = await collection.insertOne(enrichedMessage);
+    console.log('✅ Message inserted:', result.insertedId);
 
     // Keep only last 500 messages
     const count = await collection.countDocuments({});
@@ -81,7 +86,6 @@ export async function POST(request) {
     }
 
     console.log('💬 Message saved to MongoDB');
-    console.log('💬 Message content:', enrichedMessage);
     console.log('💬 Total messages:', count);
 
     return new Response(
@@ -95,6 +99,7 @@ export async function POST(request) {
     );
   } catch (error) {
     console.error('❌ Error saving message:', error);
+    console.error('❌ Error stack:', error.stack);
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
