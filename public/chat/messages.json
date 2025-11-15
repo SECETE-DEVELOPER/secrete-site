@@ -1,3 +1,11 @@
 [
-  
+  {
+    "sender": "SECRET_DEV",
+    "message": "aslkm",
+    "timestamp": "2025-11-15T12:36:09.265Z",
+    "date": "15/11/2025, 06:06:09 pm",
+    "isGuest": false,
+    "receivedAt": "2025-11-15T12:36:09.289Z",
+    "ip": "::1"
+  }
 ]

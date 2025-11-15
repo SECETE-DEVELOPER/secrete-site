@@ -1,37 +1,22 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import os from 'os';
-
-// Use temp directory in production (Vercel), public in development
-const CHAT_DIR = process.env.NODE_ENV === 'production' 
-  ? path.join(os.tmpdir(), 'chat')
-  : path.join(process.cwd(), 'public', 'chat');
-
-const CHAT_FILE = path.join(CHAT_DIR, 'messages.json');
-
-async function ensureChatFile() {
-  try {
-    await fs.mkdir(CHAT_DIR, { recursive: true });
-    try {
-      await fs.access(CHAT_FILE);
-    } catch {
-      await fs.writeFile(CHAT_FILE, JSON.stringify([], null, 2));
-    }
-  } catch (error) {
-    console.error('Error ensuring chat file:', error);
-  }
-}
+import { getMessagesCollection } from '@/lib/mongodb';
 
 export async function GET() {
   try {
-    await ensureChatFile();
-    const data = await fs.readFile(CHAT_FILE, 'utf-8');
-    const messages = JSON.parse(data);
+    const collection = await getMessagesCollection();
+    console.log('📖 Fetching messages from MongoDB');
+    
+    const messages = await collection
+      .find({})
+      .sort({ timestamp: 1 })
+      .limit(500)
+      .toArray();
+    
+    console.log('📖 Found messages:', messages.length);
     
     return new Response(
       JSON.stringify({
         success: true,
-        messages: messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+        messages: messages
       }),
       {
         status: 200,
@@ -39,7 +24,7 @@ export async function GET() {
       }
     );
   } catch (error) {
-    console.error('Error reading chat:', error);
+    console.error('❌ Error reading chat:', error);
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
@@ -49,11 +34,12 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    await ensureChatFile();
+    const collection = await getMessagesCollection();
     const messageData = await request.json();
 
     // Validate required fields
     if (!messageData.sender || !messageData.message || !messageData.timestamp) {
+      console.error('❌ Chat validation failed:', { sender: messageData.sender, message: messageData.message, timestamp: messageData.timestamp });
       return new Response(
         JSON.stringify({ success: false, error: 'Missing required fields' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -72,36 +58,43 @@ export async function POST(request) {
     const enrichedMessage = {
       ...messageData,
       receivedAt: new Date().toISOString(),
-      ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+      ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
+      createdAt: new Date()
     };
 
-    // Read existing messages
-    const data = await fs.readFile(CHAT_FILE, 'utf-8');
-    const messages = JSON.parse(data);
-
-    // Add new message
-    messages.push(enrichedMessage);
+    // Insert message into MongoDB
+    const result = await collection.insertOne(enrichedMessage);
 
     // Keep only last 500 messages
-    if (messages.length > 500) {
-      messages.shift();
+    const count = await collection.countDocuments({});
+    if (count > 500) {
+      const toDelete = count - 500;
+      const oldMessages = await collection
+        .find({})
+        .sort({ timestamp: 1 })
+        .limit(toDelete)
+        .toArray();
+      
+      for (const msg of oldMessages) {
+        await collection.deleteOne({ _id: msg._id });
+      }
     }
 
-    // Write updated messages
-    await fs.writeFile(CHAT_FILE, JSON.stringify(messages, null, 2));
-
-    console.log('💬 Message saved:', enrichedMessage);
+    console.log('💬 Message saved to MongoDB');
+    console.log('💬 Message content:', enrichedMessage);
+    console.log('💬 Total messages:', count);
 
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Message saved',
-        totalMessages: messages.length
+        totalMessages: count,
+        messageId: result.insertedId
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error('Error saving message:', error);
+    console.error('❌ Error saving message:', error);
     return new Response(
       JSON.stringify({ success: false, error: error.message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
