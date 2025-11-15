@@ -162,25 +162,30 @@ export default function ChatWindow({ senderName, isAuthenticated = false }) {
               </div>
             )}
             
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex ${msg.sender === senderName ? 'justify-end' : 'justify-start'}`}
-              >
+            {messages.map((msg, idx) => {
+              // Determine if this message is from the current sender
+              const isCurrentUser = isAuthenticated ? msg.sender === senderName : msg.sender === guestName;
+              
+              return (
                 <div
-                  className={`px-3 sm:px-4 py-2 rounded-lg max-w-xs text-xs sm:text-sm ${
-                    msg.sender === senderName
-                      ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white'
-                      : 'bg-pink-900/40 text-pink-100'
-                  }`}
+                  key={idx}
+                  className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
                 >
-                  <p className="text-xs opacity-70 mb-1">
-                    {msg.sender} • {new Date(msg.timestamp).toLocaleTimeString('en-IN')}
-                  </p>
-                  <p>{msg.message}</p>
+                  <div
+                    className={`px-3 sm:px-4 py-2 rounded-lg max-w-xs text-xs sm:text-sm ${
+                      isCurrentUser
+                        ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white'
+                        : 'bg-pink-900/40 text-pink-100'
+                    }`}
+                  >
+                    <p className="text-xs opacity-70 mb-1">
+                      {msg.sender} • {new Date(msg.timestamp).toLocaleTimeString('en-IN')}
+                    </p>
+                    <p>{msg.message}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             <div ref={messagesEndRef} />
           </div>
 
