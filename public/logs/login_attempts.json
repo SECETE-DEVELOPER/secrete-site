@@ -130,5 +130,29 @@
     "ip": "::1",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
     "receivedAt": "2025-11-15T08:02:01.171Z"
+  },
+  {
+    "timestamp": "2025-11-15T11:01:43.338Z",
+    "date": "15/11/2025, 04:31:43 pm",
+    "attemptType": "LOGIN_ATTEMPT",
+    "name": "ZOHA",
+    "answer": "***",
+    "success": false,
+    "ipInfo": "Browser Local",
+    "ip": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+    "receivedAt": "2025-11-15T11:01:44.204Z"
+  },
+  {
+    "timestamp": "2025-11-15T11:01:44.849Z",
+    "date": "15/11/2025, 04:31:44 pm",
+    "attemptType": "LOGIN_SUCCESS",
+    "name": "ZOHA",
+    "answer": "***",
+    "success": true,
+    "ipInfo": "Browser Local",
+    "ip": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+    "receivedAt": "2025-11-15T11:01:44.869Z"
   }
 ]
