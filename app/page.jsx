@@ -23,24 +23,20 @@ function PageContent() {
   const [showDistanceLess, setShowDistanceLess] = useState(false);
   const [showFinalClosing, setShowFinalClosing] = useState(false);
   const [musicStarted, setMusicStarted] = useState(false);
+  // useMusic is initialized but not used - audio plays from local AudioPlayer component only
   const music = useMusic();
 
-  // Autostart music when MainEntrance appears
-  useEffect(() => {
-    if (showMainEntrance && music?.isReady && !musicStarted) {
-      console.log('🎵 Attempting to autostart music...', { showMainEntrance, isReady: music?.isReady, musicStarted });
-      
-      // Try to play immediately first
-      if (music?.play) {
-        music.play().catch((err) => {
-          console.log('⚠️ Immediate autoplay blocked by browser:', err);
-        });
-      }
-      
-      // Also set flag
-      setMusicStarted(true);
-    }
-  }, [showMainEntrance, music?.isReady, music, musicStarted]);
+  // Autostart music when MainEntrance appears (DISABLED - audio plays automatically from AudioPlayer)
+  // useEffect(() => {
+  //   if (showMainEntrance && music?.isReady && !musicStarted) {
+  //     if (music?.play) {
+  //       music.play().catch((err) => {
+  //         console.log('⚠️ Immediate autoplay blocked by browser:', err);
+  //       });
+  //     }
+  //     setMusicStarted(true);
+  //   }
+  // }, [showMainEntrance, music?.isReady, music, musicStarted]);
 
   const handleLoginSuccess = () => {
     console.log('✅ Authentication successful! Starting journey...');
