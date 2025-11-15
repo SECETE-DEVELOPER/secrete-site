@@ -135,10 +135,10 @@ export default function ChatWindow({ senderName, isAuthenticated = false }) {
         />
       )}
 
-      <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-auto w-full flex flex-col items-end">
+      <div className="fixed inset-x-0 bottom-0 z-50 pointer-events-none w-full flex flex-col items-end">
       {/* Chat Window */}
       {isVisible && (
-        <div className="w-full sm:w-96 max-h-[calc(100vh-16px)] bg-gradient-to-br from-rose-900/90 via-purple-900/90 to-indigo-900/90 backdrop-blur-xl rounded-t-3xl sm:rounded-3xl border-2 border-pink-500/40 shadow-2xl flex flex-col animate-in m-0 sm:m-4 sm:mb-0">
+        <div className="w-full sm:w-96 max-h-[calc(100vh-16px)] bg-gradient-to-br from-rose-900/90 via-purple-900/90 to-indigo-900/90 backdrop-blur-xl rounded-t-3xl sm:rounded-3xl border-2 border-pink-500/40 shadow-2xl flex flex-col animate-in m-0 sm:m-4 sm:mb-0 pointer-events-auto">
           
           {/* Header */}
           <div className="flex items-center justify-between p-3 sm:p-4 border-b border-pink-500/20">
@@ -225,7 +225,7 @@ export default function ChatWindow({ senderName, isAuthenticated = false }) {
 
       {/* Chat Widget Button - Only button when closed */}
       {!isVisible && (
-        <div className="w-full sm:w-auto p-4 sm:p-6 flex flex-col items-end gap-2">
+        <div className="w-full sm:w-auto p-4 sm:p-6 flex flex-col items-end gap-2 pointer-events-auto">
           <div className="relative bg-gradient-to-r from-rose-900/90 via-purple-900/90 to-indigo-900/90 backdrop-blur-xl rounded-2xl border border-pink-500/40 p-3 sm:p-4 shadow-xl max-w-sm">
             {/* Unread Badge */}
             {unreadCount > 0 && (
@@ -233,7 +233,7 @@ export default function ChatWindow({ senderName, isAuthenticated = false }) {
                 {unreadCount > 9 ? '9+' : unreadCount}
               </div>
             )}
-            <p className="text-pink-200 text-xs sm:text-sm font-semibold mb-2">💬 Want to chat with Hamid?</p>
+            <p className="text-pink-200 text-xs sm:text-sm font-semibold mb-2">💬 Want to chat with secret dev?</p>
             <button
               onClick={() => setIsVisible(true)}
               className="w-full px-3 sm:px-4 py-2 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 hover:from-rose-600 hover:via-pink-600 hover:to-purple-600 text-white rounded-lg transition-all text-xs sm:text-sm font-semibold hover:scale-105"

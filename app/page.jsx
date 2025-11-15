@@ -134,7 +134,7 @@ function PageContent() {
         )}
       </Layout>
 
-      {/* Chat Window - Only after login (private) */}
+      {/* Chat Window - Always visible after login */}
       {isAuthenticated && (
         <ChatWindow senderName="SECRET_DEV" isAuthenticated={true} />
       )}
